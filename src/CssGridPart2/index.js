@@ -3,7 +3,6 @@ import "./style.css";
 import backgroud from "./backgroud.jpg";
 // import { doRunBuild, cancelRunBuild } from "./client";
 import RunBuild from "./client";
-import Msg from "../SendModule"
 
 const CssGridPart2 = () => {
   const msg = new Msg({
