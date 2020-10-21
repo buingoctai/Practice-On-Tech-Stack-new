@@ -1,0 +1,16 @@
+<button id="show">Show Notes</button>
+<button id="hide">Hide Notes</button>
+<script type="module">
+  let notesWindow;
+  document.getElementById("show").onclick = () => {
+    notesWindow = window.open("/presenter-notes.html");
+  };
+  document.getElementById("hide").onclick = () => {
+    if (notesWindow) notesWindow.close();
+  };
+</script>
+
+-- mô tả hành động user click vào Show Notes, một window dc mở ra nhưng khi muốn
+close user không click vào Hide Notes mà click trực tiếp vào X icon trên window.
+Mặc dù window đã dc close tuy nhiên biến notesWindow vẫn còn giữ một reference
+đến window đó -> gọi hiện tượng này là detached window

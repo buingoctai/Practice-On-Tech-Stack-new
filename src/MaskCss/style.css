@@ -1,0 +1,30 @@
+.container {
+  width: 400px;
+  height: 300px;
+  margin: 1em auto;
+}
+.container img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover; /*cut image fit with size but keep aspect ratio  */
+  /* object-position: center 75%; Dùng để điều chỉnh vị trí cần hiển thị trên ảnh*/
+  -webkit-mask-size: cover;
+  mask-size: cover;
+}
+
+/* Masking with gradient */
+.one {
+  -webkit-mask-image: linear-gradient(to top, transparent 5%, black 100%);
+  mask-image: linear-gradient(to top, transparent 5%, black 100%);
+}
+
+/* Masking with image*/
+.two {
+  -webkit-mask-image: url("https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask-gradient.png?v=1597757011489");
+  mask-image: url("https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask-gradient.png?v=1597757011489");
+}
+
+.three {
+  -webkit-mask-image: url("https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask-gradient.png?v=1597757011489");
+  mask-image: url("https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask-gradient.png?v=1597757011489");
+}

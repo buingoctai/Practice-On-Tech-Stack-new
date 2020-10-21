@@ -1,0 +1,14 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr min(65ch, 100%) 1fr;
+}
+/* 1ch tương ứng với width của 0 character in the current font*/
+/* đơn vị fr tương tự flex-grow */
+.wrapper > * {
+  grid-column: 2;
+}
+
+.full__bleed {
+  width: 100%;
+  grid-column: 1/4;
+}

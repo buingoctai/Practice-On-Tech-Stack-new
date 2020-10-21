@@ -1,0 +1,26 @@
+.container {
+  /* inline elements */
+  /* text-align: center; */
+  /* display: flex;
+  justify-content: center; *
+  /*có thể display grid nếu chỉ có 1 item*/
+  /* display: grid;
+  justify-content: center; */
+
+  /* block elements */
+}
+
+.child {
+  /* inline elements */
+  /* margin: 10px; */
+
+  /* block elements */
+  /* width: 200px;
+  height: 200px;
+  margin-left: auto;
+  margin-right: auto; */
+
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}

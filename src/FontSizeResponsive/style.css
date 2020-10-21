@@ -1,0 +1,28 @@
+:root{ /* for global scope: using :root or body selector*/
+    --base-scale:calc(100vw / 75);
+ --h2-font-size:max(1em, min(4em, calc(var(--base-scale) * 4)));
+ --padding-size:max(1em, min(2em, calc(var(--base-scale) * 2)));
+ --margin-size:max(0.5em, min(2em, calc(var(--base-scale) * 2)));
+ --border-radius:max(1em, min(3em, calc(var(--base-scale) * 3)));
+}
+.wrapper{
+    max-width: 40em;
+    padding:var(--padding-size);
+    margin: var(--margin-size);
+    border-radius: var(--border-radius);
+    background: #FFF;
+    border:1px solid #0484;
+}
+
+.title{
+    font-size: var(--h2-font-size);
+}
+
+/* Phần tử vh bằng 1/100 chiều cao của khung nhìn. 
+Ví dụ: nếu chiều cao của trình duyệt là 900px, 1vh sẽ đánh giá là 9px. 
+Tương tự, nếu chiều rộng khung nhìn là 750px, 1vw sẽ đánh giá đến 7.5px. */
+
+/*
+ đơn vị có giá trị tuyệt đối
+ dơn vị có giá trị tương đối
+*/
