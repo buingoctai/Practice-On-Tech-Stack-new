@@ -5,14 +5,12 @@ import backgroud from "./backgroud.jpg";
 import RunBuild from "./client";
 
 const CssGridPart2 = () => {
-  const msg = new Msg({
-    decryptKey: 'decryptKey',
-    sessionKey: 'sessionKey',
-    zpwVersion: 'cookies.ZPW_VERSION',
-    zpwType: 'cookies.ZPW_TYPE',
-  });
-
-  console.log("msg", msg);
+  // const msg = new Msg({
+  //   decryptKey: 'decryptKey',
+  //   sessionKey: 'sessionKey',
+  //   zpwVersion: 'cookies.ZPW_VERSION',
+  //   zpwType: 'cookies.ZPW_TYPE',
+  // });
 
   const builder = new RunBuild();
   const onRunBuild = () => {
@@ -41,7 +39,6 @@ const CssGridPart2 = () => {
     builder.cancelRunBuild();
   }
   const onSendMsg = () => {
-    msg.sendText({});
   }
   return <div className="wrapper">
     <h1>some heading</h1>

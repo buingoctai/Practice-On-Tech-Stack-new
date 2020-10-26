@@ -33,6 +33,6 @@
     ]
   },
   "workspaces": [
-    "send-msg-module"
+    "send-zalo-msg-module"
   ]
 }

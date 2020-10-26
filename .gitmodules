@@ -1,0 +1,3 @@
+[submodule "send-zalo-msg-module"]
+	path = send-zalo-msg-module
+	url = https://github.com/buingoctai/Send-zalo-msg-module-new.git
