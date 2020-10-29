@@ -7,9 +7,9 @@ import RunBuild from "./client";
 let newBuildId;
 const BUILD_MESSAGE = {
   START_BUILD: 'Start run build',
-  CLONE_SOURCE: 'Start clone zalo pc code',
-  CHECKOUT_AND_BUILD: 'Start checkout branch, build app',
-  UPLOAD_FILE: 'Start upload file',
+  CLONE_SOURCE: 'Clone zalo pc code',
+  CHECKOUT_AND_BUILD: 'Checkout branch, build app',
+  UPLOAD_FILE: 'Upload file',
 
   TIMEOUT: 'Websocket timed out',
 
@@ -18,8 +18,8 @@ const BUILD_MESSAGE = {
   BUILD_SUCCESS: 'Build was success',
 
   /* errors */
-  ERROR_CONNECT: 'Websocket connection was error',
-  ERROR_BUILDER: 'There are errors on running builder',
+  ERROR_CONNECT: 'Websocket was errCode',
+  ERROR_BUILDER: 'Builder was error in build processing',
   ERROR_SERVER_CRASH: 'The connection was turned off by server',
 };
 const CssGridPart2 = () => {
@@ -36,7 +36,7 @@ const CssGridPart2 = () => {
     const params = {
       buildType: "buildBranch",
       buildInfor: { buildBranch: "features/release_353" },
-      token: 'R3YKZFKBVi',
+      action: "BUILD"
     };
     // const params = {
     //   buildType: "buildTag",
@@ -48,12 +48,24 @@ const CssGridPart2 = () => {
   const onRunCancel = () => {
     const params = {
       buildId: newBuildId,
+      action: "CANCEL"
     }
     builder.cancelBuild(params);
   }
+  const onReturnBuildState = () => {
+    const params = {
+      buildId: newBuildId,
+      action: "STATE"
+    }
+    builder.getBuildSate(params);
+  }
   //----------------
   const onProcessingBuild = (params) => {
-    if (params.buildId) newBuildId = params.buildId;
+    if (params.buildId) {
+      console.log("onProcessingBuild: ", params.buildId);
+      newBuildId = params.buildId;
+      return;
+    };
 
     console.log("onProcessingBuild: ", BUILD_MESSAGE[params.code]);
   }
@@ -75,6 +87,7 @@ const CssGridPart2 = () => {
     <img className="full__bleed" alt="backgroud" src={backgroud} />
     <button onClick={onRunBuild}>do run build</button>
     <button onClick={onRunCancel}>cancel run build</button>
+    <button onClick={onReturnBuildState}>return build state</button>
   </div>
 };
 

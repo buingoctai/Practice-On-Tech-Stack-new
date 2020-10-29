@@ -48,6 +48,10 @@ class RunBuild {
     if (!this.socket) return;
     this.socket.send(JSON.stringify(params));
   }
+  getBuildSate(params) {
+    if (!this.socket) return;
+    this.socket.send(JSON.stringify(params));
+  }
   onClose() {
     if (!this.socket) return;
     this.socket.close();
