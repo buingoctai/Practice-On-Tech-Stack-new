@@ -10,32 +10,34 @@ class RunBuild {
       console.log("params=", params);
       this.socket.send(JSON.stringify(params));
     });
-    const { onProcessingBuild, onFinishedBuild, onError, onCanceledBuild } = buildEvents;
+    const { handleBuildResult, handleBuildSate, handleCanceledBuild, handleError } = buildEvents;
     this.socket.addEventListener("message", (event) => {
-      const { isCanceled, isError, isFinished, message, code, buildId } = JSON.parse(event.data);
-
-      if (isCanceled) {
-        onCanceledBuild({ message, code });
-        this.onClose();
-        return;
-      };
-      if (isError) {
-        onError({ message, code });
-        this.onClose();
-        return;
+      console.log("----------event.data", JSON.parse(event.data));
+      const { action, ...restRes } = JSON.parse(event.data);
+      // Includes: action, message, code
+      switch (action) {
+        case 'BUILD':
+          handleBuildResult(restRes);
+          break;
+        case 'STATE':
+          handleBuildSate(restRes);
+          break;
+        case 'CANCEL':
+          handleCanceledBuild(restRes);
+          break;
+        case 'ERROR':
+          handleError(restRes);
+          this.onClose();
+          break;
+        default:
+          console.log(restRes.message);
       }
 
-      if (isFinished) {
-        onFinishedBuild({ message, code });
-        this.onClose();
-      } else {
-        onProcessingBuild({ message, code, buildId });
-      }
     });
     // Fire error event when connecting to websocket error
     this.socket.addEventListener("error", (event) => {
       const code = event.message ? 'ERROR_CONNECT' : 'ERROR_SERVER_CRASH';
-      onError({ message: event.message, code });
+      handleError({ message: event.message, code });
       this.onClose();
     });
     // Fire close event when call close() function or auto calling after error event

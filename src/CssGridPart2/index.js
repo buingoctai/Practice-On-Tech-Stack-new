@@ -6,18 +6,21 @@ import RunBuild from "./client";
 
 let newBuildId;
 const BUILD_MESSAGE = {
+  /* build state */
   START_BUILD: 'Start run build',
   CLONE_SOURCE: 'Clone zalo pc code',
   CHECKOUT_AND_BUILD: 'Checkout branch, build app',
   UPLOAD_FILE: 'Upload file',
-
-  TIMEOUT: 'Websocket timed out',
-
-  CLOSE_CONNECT: 'Websocket connection was closed by the client',
-  CANCEL_SUCCESS: 'Build Processing was success cancel',
   BUILD_SUCCESS: 'Build was success',
-
-  /* errors */
+  TIMEOUT: 'Websocket timed out',
+  CLOSE_CONNECT: 'Websocket connection was closed by the client',
+  /* notifications */
+  CANCEL_SUCCESS: 'Build Processing was cancel successfully.',
+  CANCEL_FAILED: 'Build Processing was failed cancel',
+  GET_STATE_SUCCESS: 'Get build state successfully',
+  GET_STATE_FAILED: 'Get build state falied',
+  NOT_FOUND_ACTION: 'The requested action was not found', // ngoại lệ k gắn action type
+  /* build  error */
   ERROR_CONNECT: 'Websocket was errCode',
   ERROR_BUILDER: 'Builder was error in build processing',
   ERROR_SERVER_CRASH: 'The connection was turned off by server',
@@ -45,13 +48,6 @@ const CssGridPart2 = () => {
 
     builder.doBuild({ params, buildEvents });
   }
-  const onRunCancel = () => {
-    const params = {
-      buildId: newBuildId,
-      action: "CANCEL"
-    }
-    builder.cancelBuild(params);
-  }
   const onReturnBuildState = () => {
     const params = {
       buildId: newBuildId,
@@ -59,26 +55,32 @@ const CssGridPart2 = () => {
     }
     builder.getBuildSate(params);
   }
-  //----------------
-  const onProcessingBuild = (params) => {
-    if (params.buildId) {
-      console.log("onProcessingBuild: ", params.buildId);
-      newBuildId = params.buildId;
-      return;
-    };
+  const onRunCancel = () => {
+    const params = {
+      buildId: newBuildId,
+      action: "CANCEL"
+    }
+    builder.cancelBuild(params);
+  }
+  //------------------------------------
 
-    console.log("onProcessingBuild: ", BUILD_MESSAGE[params.code]);
+  const handleBuildResult = (res) => {
+    console.log(res.message);
   }
-  const onFinishedBuild = (params) => {
-    console.log("onFinishedBuild: ", BUILD_MESSAGE[params.code]);
+  const handleBuildSate = (res) => {
+    if (res.buildId) {
+      newBuildId = res.buildId
+    };
+    console.log(res.message);
   }
-  const onCanceledBuild = (params) => {
-    console.log("onCanceledBuild: ", BUILD_MESSAGE[params.code]);
+  const handleCanceledBuild = (res) => {
+    if (res.code === 'CANCEL_SUCCESS') builder.onClose()
+    console.log(res.message);
   }
-  const onError = (params) => {
-    console.log("onError: ", BUILD_MESSAGE[params.code]);
+  const handleError = (res) => {
+    console.log(res.message);
   }
-  const buildEvents = { onProcessingBuild, onFinishedBuild, onError, onCanceledBuild };
+  const buildEvents = { handleBuildResult, handleBuildSate, handleCanceledBuild, handleError };
 
 
   return <div className="wrapper">
