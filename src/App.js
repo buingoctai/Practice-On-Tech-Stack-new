@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import CssGridPart2 from "./CssGridPart2";
+import WebAudioAPI from "./WebAudioAPI";
+
 import { squareOutput, diagonalOutput } from "./TopLevelAwait/middlewares";
 import "./App.css";
 
