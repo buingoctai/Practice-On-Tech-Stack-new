@@ -1,10 +1,14 @@
 import React from "react";
+
 import "./style.css";
 import backgroud from "./backgroud.jpg";
 // import { doRunBuild, cancelRunBuild } from "./client";
-import RunBuild from "./client";
-
+import RunBuildOld from "./client";
+import RunBuild from "./client-socket";
+let newBuildIdWin;
+let newBuildIdMac;
 let newBuildId;
+
 const BUILD_MESSAGE = {
   /* build state */
   START_BUILD: 'Start run build',
@@ -43,13 +47,37 @@ const CssGridPart2 = () => {
   //   zpwVersion: 'cookies.ZPW_VERSION',
   //   zpwType: 'cookies.ZPW_TYPE',
   // });
+  const handleBuildResult = (res) => {
+    console.log(res.message);
+  }
+  const handleBuildState = (res) => {
+    if (res.data && res.buildPlatform === 'win') {
+      newBuildIdWin = res.data
+    };
+    if (res.data && res.buildPlatform === 'mac') {
+      newBuildIdMac = res.data
+    };
+    console.log(res.message);
+  }
+  const handleCanceledBuild = (res) => {
+    if (res.code === 'CANCEL_SUCCESS') {
+      // builder.onClose();
+    }
 
-  const builder = new RunBuild();
+    console.log(res.message);
+  }
+  const handleError = (res) => {
+    console.log(res.message);
+  }
+  const buildEvents = { handleBuildResult, handleBuildState, handleCanceledBuild, handleError };
+  const botWin = new RunBuild(buildEvents, 'bot-win');
+  const botMac = new RunBuild(buildEvents, 'bot-mac');
+  const builder = new RunBuildOld();
   const onRunBuild = () => {
     console.log("on click do build");
     const params = {
       buildType: "buildBranch",
-      buildInfor: { buildBranch: "hai/release_353" },
+      buildInfor: { buildBranch: "ta/card_2011" },
       action: "BUILD"
     };
     // const params = {
@@ -67,44 +95,76 @@ const CssGridPart2 = () => {
     }
     builder.getBuildSate(params);
   }
-  const onRunCancel = () => {
-    const params = {
-      buildId: newBuildId,
-      action: "CANCEL"
-    }
-    builder.cancelBuild(params);
-  }
+  // const onRunCancel = () => {
+  //   const params = {
+  //     buildId: newBuildId,
+  //     action: "CANCEL"
+  //   }
+  //   builder.cancelBuild(params);
+  // }
 
   //------------------------------------
-  const handleBuildResult = (res) => {
-    console.log(res.message);
-  }
-  const handleBuildState = (res) => {
-    if (res.data) {
-      newBuildId = res.data
-    };
-    console.log(res.message);
-  }
-  const handleCanceledBuild = (res) => {
-    if (res.code === 'CANCEL_SUCCESS') {
-      builder.onClose();
-    }
 
-    console.log(res.message);
+
+  // ------------- connect socket ----------------------------
+  const onRunBuildWin = () => {
+    const params = {
+      buildType: 'buildBranch',
+      buildInfor: { buildBranch: 'ta/card_2011' },
+      action: 'BUILD',
+    };
+    // const params = {
+    //   buildType: "buildTag",
+    //   buildInfor: { buildTagVersion: "353", buildTagType: "test" },
+    //   action: "BUILD"
+    // };
+    botWin.doBuild(params);
   }
-  const handleError = (res) => {
-    console.log(res.message);
+
+  const onReturnBuildStateWin = () => {
+    const params = {
+      buildId: newBuildIdWin,
+      action: 'STATE',
+    }
+    botWin.getBuildState(params);
   }
-  const buildEvents = { handleBuildResult, handleBuildState, handleCanceledBuild, handleError };
+
+  const onRunBuildMac = () => {
+    const params = {
+      buildType: 'buildBranch',
+      buildInfor: { buildBranch: 'huynh/release' },
+      action: 'BUILD',
+    };
+    // const params = {
+    //   buildType: "buildTag",
+    //   buildInfor: { buildTagVersion: "353", buildTagType: "test" },
+    //   action: "BUILD"
+    // };
+    botMac.doBuild(params);
+  }
+
+  const onReturnBuildStateMac = () => {
+    const params = {
+      buildId: newBuildIdMac,
+      action: 'STATE',
+    }
+    botMac.getBuildState(params);
+  }
 
 
   return <div className="wrapper">
-    <h1>some heading</h1>
-    <p>some content and stuff</p>
-    <img className="full__bleed" alt="backgroud" src={backgroud} />
-    <button onClick={onRunBuild}>do run build</button>
-    <button onClick={onRunCancel}>cancel run build</button>
-    <button onClick={onReturnBuildState}>return build state</button>
+    <h1>Test build app</h1>
+    <p>Bot Side - apply socket server</p>
+    <button onClick={onRunBuildWin}>Do Buil On <strong>Win</strong></button>
+    {/* <button onClick={onRunCancel}>cancel run build</button> */}
+    <button onClick={onReturnBuildStateWin}>Return Build State On <strong>Win</strong></button>
+    <button onClick={onRunBuildMac}>Do Run Build On <strong>Mac</strong></button>
+    {/* <button onClick={onRunCancel}>cancel run build</button> */}
+    <button onClick={onReturnBuildStateMac}>Return Build State <strong>Mac</strong> </button>
+    <p>Bot Side</p>
+    <button onClick={onRunBuild}>Do Buil On <strong>Win</strong></button>
+    <button onClick={onReturnBuildState}>Return Build State <strong>Win</strong> </button>
+
   </div>
 };
 

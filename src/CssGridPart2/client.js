@@ -31,9 +31,8 @@ const BUILD_MESSAGE = {
   ERROR_SERVER_CRASH: 'The connection was turned off by server',
   ERROR_UNKNOW: 'Unknow from server'
 };
-class RunBuild {
+class RunBuildOld {
   constructor() {
-    //this.socket = new WebSocket("ws://localhost:80", ["json", "xml"]);
     this.socket = null;
   }
   doBuild({ params, buildEvents }) {
@@ -49,16 +48,16 @@ class RunBuild {
       // Includes: action, message, code
       switch (action) {
         case 'BUILD':
-          handleBuildResult(restRes);
+          // handleBuildResult(restRes);
           break;
         case 'STATE':
-          handleBuildState(restRes);
+          // handleBuildState(restRes);
           break;
         case 'CANCEL':
-          handleCanceledBuild(restRes);
+          // handleCanceledBuild(restRes);
           break;
         case 'ERROR':
-          handleError(restRes);
+          // handleError(restRes);
           this.onClose();
           break;
         default:
@@ -94,4 +93,4 @@ class RunBuild {
 
 }
 
-export default RunBuild;
+export default RunBuildOld;
