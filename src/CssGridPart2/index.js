@@ -70,8 +70,8 @@ const CssGridPart2 = () => {
     console.log(res.message);
   }
   const buildEvents = { handleBuildResult, handleBuildState, handleCanceledBuild, handleError };
-  const botWin = new RunBuild(buildEvents, 'bot-win');
-  const botMac = new RunBuild(buildEvents, 'bot-mac');
+  const botWin = new RunBuild('bot-win');
+  const botMac = new RunBuild('bot-mac');
   const builder = new RunBuildOld();
   const onRunBuild = () => {
     console.log("on click do build");
@@ -118,7 +118,7 @@ const CssGridPart2 = () => {
     //   buildInfor: { buildTagVersion: "353", buildTagType: "test" },
     //   action: "BUILD"
     // };
-    botWin.doBuild(params);
+    botWin.doBuild({ params, buildEvents });
   }
 
   const onReturnBuildStateWin = () => {
@@ -140,7 +140,7 @@ const CssGridPart2 = () => {
     //   buildInfor: { buildTagVersion: "353", buildTagType: "test" },
     //   action: "BUILD"
     // };
-    botMac.doBuild(params);
+    botMac.doBuild({ params, buildEvents });
   }
 
   const onReturnBuildStateMac = () => {

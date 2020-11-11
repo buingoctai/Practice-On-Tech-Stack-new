@@ -1,13 +1,13 @@
 import io from "socket.io-client";
 
 class RunBuild {
-    constructor(buildEvents, source) {
+    constructor(source) {
         this.socket = null;
+        this.buildEvents = null;
         this.source = source;
-        this.buildEvents = buildEvents;
     }
-    doBuild(params) {
-
+    doBuild({ params, buildEvents }) {
+        this.buildEvents = buildEvents;
         this.socket = io('https://socket-build.herokuapp.com', { transports: ['websocket', 'polling', 'flashsocket'], query: { source: this.source } });
         // this.socket = io('http://localhost:3000', { transports: ['websocket', 'polling', 'flashsocket'], query: { source: this.source } });
 
