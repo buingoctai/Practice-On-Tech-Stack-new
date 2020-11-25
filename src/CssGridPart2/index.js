@@ -137,16 +137,16 @@ const CssGridPart2 = () => {
 
   // ------------- connect socket ----------------------------
   const onRunBuildWin = () => {
+    // const params = {
+    //   buildType: 'buildBranch',
+    //   buildInfor: { buildBranch: 'ta/card_2011' },
+    //   action: 'BUILD',
+    // };
     const params = {
-      buildType: 'buildBranch',
-      buildInfor: { buildBranch: 'ta/card_2011' },
+      buildType: 'buildTag',
+      buildInfor: { buildTagVersion: '353', buildTagType: 'Test' },
       action: 'BUILD',
     };
-    // const params = {
-    //   buildType: "buildTag",
-    //   buildInfor: { buildTagVersion: "353", buildTagType: "Test" },
-    //   action: "BUILD"
-    // };
     botWin.doBuild({ params, buildEvents });
   };
 
@@ -226,6 +226,9 @@ const CssGridPart2 = () => {
       <button onClick={onReturnBuildState}>
         Return Build State <strong>Win</strong>{' '}
       </button>
+      <button onClick={()=>{
+        window.print()
+      }}>print</button>
     </div>
   );
 };
