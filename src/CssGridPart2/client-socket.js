@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 
 class RunBuild {
   constructor(source) {
-    this.socket = io('https://socket-build-new-testing.herokuapp.com', {
+    this.socket = io('https://socket-build-new.herokuapp.com', {
       transports: ['websocket', 'polling', 'flashsocket'],
       query: { source },
       reconnection: true,
