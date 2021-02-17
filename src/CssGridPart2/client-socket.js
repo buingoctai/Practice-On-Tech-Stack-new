@@ -2,7 +2,9 @@ import io from 'socket.io-client';
 
 class RunBuild {
   constructor(source) {
-    this.socket = io('https://socket-build-new.herokuapp.com', {
+   // this.socket = io('http://neca-middleman.zalo-pc.zte-dev.zalo.services', {
+    this.socket = io('http://neca-middleman.zalo-pc.zte-dev.zalo.services/xxx', {
+
       transports: ['websocket', 'polling', 'flashsocket'],
       query: { source },
       reconnection: true,
@@ -12,6 +14,7 @@ class RunBuild {
     });
     this.buildEvents = null;
     this.source = source;
+    
   }
   doBuild({ params, buildEvents }) {
     this.buildEvents = buildEvents;
@@ -28,7 +31,6 @@ class RunBuild {
     // });
 
     this.socket.emit('BUILD', params);
-
     this.socket.on('OUTPUT BUILD', (output) => {
       console.log(output);
       const { action, ...restRes } = output;
@@ -36,17 +38,21 @@ class RunBuild {
       switch (action) {
         case 'BUILD':
           this.buildEvents.handleBuildResult(restRes);
+          this.socket.off(); 
           break;
         case 'STATE':
           this.buildEvents.handleBuildState(restRes);
           break;
         case 'CANCEL':
           this.buildEvents.handleCanceledBuild(restRes);
+          this.socket.off(); 
           break;
         case 'ERROR':
           this.buildEvents.handleError(restRes);
+          this.socket.off(); 
           break;
         default:
+          this.socket.off(); 
           console.log(restRes.message);
       }
     });

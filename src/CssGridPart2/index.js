@@ -137,16 +137,16 @@ const CssGridPart2 = () => {
 
   // ------------- connect socket ----------------------------
   const onRunBuildWin = () => {
-    // const params = {
-    //   buildType: 'buildBranch',
-    //   buildInfor: { buildBranch: 'ta/card_2011' },
-    //   action: 'BUILD',
-    // };
     const params = {
-      buildType: 'buildTag',
-      buildInfor: { buildTagVersion: '353', buildTagType: 'Test' },
+      buildType: 'buildBranch',
+      buildInfor: { buildBranch: 'duclm7/feature-extension-without-zavi' },
       action: 'BUILD',
     };
+    // const params = {
+    //   buildType: 'buildTag',
+    //   buildInfor: { buildTagVersion: '353', buildTagType: 'Test' },
+    //   action: 'BUILD',
+    // };
     botWin.doBuild({ params, buildEvents });
   };
 
@@ -167,16 +167,16 @@ const CssGridPart2 = () => {
   };
 
   const onRunBuildMac = () => {
-    // const params = {
-    //   buildType: 'buildBranch',
-    //   buildInfor: { buildBranch: 'huynh/release' },
-    //   action: 'BUILD',
-    // };
     const params = {
-      buildType: 'buildTag',
-      buildInfor: { buildTagVersion: '353', buildTagType: 'Test' },
+      buildType: 'buildBranch',
+      buildInfor: { buildBranch: 'dungcv2/minor_fix' },
       action: 'BUILD',
     };
+    // const params = {
+    //   buildType: 'buildTag',
+    //   buildInfor: { buildTagVersion: '353', buildTagType: 'Test' },
+    //   action: 'BUILD',
+    // };
 
     botMac.doBuild({ params, buildEvents });
   };
