@@ -1,0 +1,13 @@
+:root{
+    --frames: 3;
+}
+
+.labelWrap{
+    animation: states1 100.001s var(--delay, 0s) paused; 
+}
+
+@keyframes states1 {
+    0% { color: red; --frame:"1"; }         
+    50% { color: green; --frame:"2"; }        
+   100% { color: blue; --frame:"3"; } 
+}
